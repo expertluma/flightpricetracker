@@ -4,6 +4,7 @@
   "description": "Flight Price Tracker – Email Alerts",
   "type": "module",
   "scripts": {
+    "build": "echo 'Static site ready'",
     "dev:extension": "crx build",
     "build:extension": "crx build",
     "watch:extension": "crx build -w",
