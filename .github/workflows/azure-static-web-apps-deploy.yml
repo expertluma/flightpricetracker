@@ -25,9 +25,9 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_FLIGHTPRICETRACKER }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "public" # App source code path
+          app_location: "/" # Serve from root
           api_location: "" # Api source code path - optional
-          output_location: "public" # Built app content directory - optional
+          output_location: "" # No build output needed
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
