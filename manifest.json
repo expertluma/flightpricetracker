@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "Flight Price Tracker – Email Alerts",
+  "version": "0.1.0",
+  "description": "Track flight prices and get email alerts when prices drop",
+  "permissions": [
+    "alarms",
+    "storage",
+    "tabs",
+    "webRequest"
+  ],
+  "host_permissions": [
+    "https://www.google.com/travel/flights/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.google.com/travel/flights*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Flight Price Tracker"
+  },
+  "options_page": "options.html",
+  "icons": {
+    "16": "/icons/16.png",
+    "48": "/icons/48.png",
+    "128": "/icons/128.png"
+  }
+}

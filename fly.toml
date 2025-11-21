@@ -1,0 +1,39 @@
+app = "flight-price-tracker"
+primary_region = "ams"
+
+[build]
+builder = "heroku"
+
+[env]
+  SUPABASE_URL = "dummy"
+  SUPABASE_ANON_KEY = "dummy"
+  RESEND_API_KEY = "dummy"
+  LEMON_SQUEEZY_API_KEY = "dummy"
+  LEMON_SQUEEZY_WEBHOOK_SECRET = "dummy"
+  PORT = "3000"
+  NODE_ENV = "production"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1
+
+[checks]
+  [checks.alive]
+    type = "http"
+    interval = "10s"
+    timeout = "5s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/api/health"
+
+[mounts]
+  source = "data"
+  destination = "/data"

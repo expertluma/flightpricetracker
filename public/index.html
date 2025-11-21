@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Flight Price Tracker – Get email alerts when flight prices drop. Track prices on Google Flights and save money on your next trip.">
+  <meta name="keywords" content="flight prices, price alerts, flight deals, Google Flights tracker">
+  <meta property="og:title" content="Flight Price Tracker – Email Alerts for Flight Deals">
+  <meta property="og:description" content="Never miss a flight price drop again. Track your flights and get instant email alerts when prices drop 5% or reach a new low.">
+  <meta property="og:image" content="https://flightpricetracker.com/og-image.png">
+  <title>Flight Price Tracker – Email Alerts for Flight Deals</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #1f2937;
+      background: #fff;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    nav {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+
+    nav a:hover {
+      opacity: 0.8;
+    }
+
+    .btn-install {
+      background: white;
+      color: #10b981;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.2s;
+    }
+
+    .btn-install:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .hero-highlight {
+      color: #10b981;
+    }
+
+    .hero p {
+      font-size: 20px;
+      color: #6b7280;
+      margin-bottom: 40px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 16px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #10b981;
+      border: 2px solid #10b981;
+      padding: 14px 38px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: #f0fdf4;
+    }
+
+    /* Hero Image */
+    .hero-image {
+      margin: 60px 0;
+      text-align: center;
+    }
+
+    .hero-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    }
+
+    /* Features Section */
+    .features {
+      background: #f9fafb;
+      padding: 80px 20px;
+    }
+
+    .features-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 50px;
+      text-align: center;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+
+    .feature-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #1f2937;
+    }
+
+    .feature-card p {
+      color: #6b7280;
+      font-size: 15px;
+    }
+
+    /* How It Works */
+    .how-it-works {
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    .step {
+      text-align: center;
+    }
+
+    .step-number {
+      width: 50px;
+      height: 50px;
+      background: #10b981;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 800;
+      margin: 0 auto 20px;
+    }
+
+    .step h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      color: #6b7280;
+      font-size: 15px;
+    }
+
+    /* Pricing */
+    .pricing {
+      background: #f9fafb;
+      padding: 80px 20px;
+    }
+
+    .pricing-content {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .price-card {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      text-align: center;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .price-card.featured {
+      border-color: #10b981;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
+      transform: scale(1.05);
+    }
+
+    .price-card h3 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .price {
+      font-size: 48px;
+      font-weight: 800;
+      color: #10b981;
+      margin-bottom: 10px;
+    }
+
+    .price-period {
+      color: #6b7280;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+
+    .features-list {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 30px;
+    }
+
+    .features-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid #e5e7eb;
+      color: #6b7280;
+    }
+
+    .features-list li:last-child {
+      border-bottom: none;
+    }
+
+    .features-list li:before {
+      content: "✓ ";
+      color: #10b981;
+      font-weight: 700;
+      margin-right: 10px;
+    }
+
+    .price-card .btn-primary,
+    .price-card .btn-secondary {
+      width: 100%;
+    }
+
+    /* FAQ */
+    .faq {
+      padding: 80px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      margin-bottom: 30px;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 30px;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-question {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1f2937;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: color 0.2s;
+    }
+
+    .faq-question:hover {
+      color: #10b981;
+    }
+
+    .faq-answer {
+      color: #6b7280;
+      margin-top: 15px;
+      line-height: 1.8;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .cta-section h2 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .cta-section p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    /* Footer */
+    footer {
+      background: #1f2937;
+      color: white;
+      padding: 40px 20px;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .footer-section h4 {
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-section a {
+      color: #d1d5db;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-section a:hover {
+      color: #10b981;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #374151;
+      padding-top: 20px;
+      text-align: center;
+      color: #9ca3af;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      nav {
+        gap: 15px;
+        font-size: 14px;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+      }
+
+      .btn-primary, .btn-secondary {
+        width: 100%;
+      }
+
+      .price-card.featured {
+        transform: scale(1);
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        ✈️ Flight Price Tracker
+      </div>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://chrome.google.com/webstore" class="btn-install">Install Extension</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Never Miss a <span class="hero-highlight">Flight Deal</span> Again</h1>
+    <p>Get instant email alerts when flight prices drop. Track your favorite routes and save hundreds on your next trip.</p>
+    <div class="cta-buttons">
+      <a href="https://chrome.google.com/webstore" class="btn-primary">📥 Add to Chrome – Free</a>
+      <button class="btn-secondary" onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">Learn More</button>
+    </div>
+    <div class="hero-image">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 400'%3E%3Crect fill='%23f3f4f6' width='600' height='400'/%3E%3Ctext x='300' y='200' font-size='24' text-anchor='middle' fill='%236b7280'%3E[Extension Screenshot Preview]%3C/text%3E%3C/svg%3E" alt="Extension Preview">
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="features-content">
+      <h2 class="section-title">Why Flight Price Tracker?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>One-Click Tracking</h3>
+          <p>Track flights instantly from Google Flights. No signup required for first flight.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📧</div>
+          <h3>Smart Email Alerts</h3>
+          <p>Get notified when prices drop 5% or reach a new low. Only relevant alerts, no spam.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Price History</h3>
+          <p>See visual charts of price trends over time. Know the best time to buy.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔄</div>
+          <h3>Automatic Checks</h3>
+          <p>Prices checked every 6 hours automatically. Works 24/7 in the background.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💰</div>
+          <h3>Save Money</h3>
+          <p>Average users save $50-200 per flight. Upgrade to Pro for unlimited tracking.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>Private & Secure</h3>
+          <p>Your data is encrypted. No sharing with third parties. Full control.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works">
+    <h2 class="section-title">How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Go to Google Flights</h3>
+        <p>Search for your next trip on Google Flights.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Click Track Button</h3>
+        <p>Hit the green "Track Price" button in the corner.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Get Alerts</h3>
+        <p>Receive instant email when prices drop.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <h3>Book & Save</h3>
+        <p>Click directly to book at the best price.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="pricing" id="pricing">
+    <div class="pricing-content">
+      <h2 class="section-title">Simple, Transparent Pricing</h2>
+      <div class="pricing-cards">
+        <div class="price-card">
+          <h3>Free Tier</h3>
+          <div class="price">$0</div>
+          <div class="price-period">Forever Free</div>
+          <ul class="features-list">
+            <li>2 tracked flights</li>
+            <li>Price checks every 6 hours</li>
+            <li>Email alerts on 5%+ drops</li>
+            <li>Price history charts</li>
+          </ul>
+          <a href="https://chrome.google.com/webstore" class="btn-secondary">Get Started</a>
+        </div>
+        <div class="price-card featured">
+          <h3>Pro</h3>
+          <div class="price">$7.99</div>
+          <div class="price-period">Per Month</div>
+          <ul class="features-list">
+            <li>Unlimited tracked flights</li>
+            <li>Price checks every 4 hours</li>
+            <li>Priority email alerts</li>
+            <li>Advanced price analytics</li>
+            <li>Cancel anytime</li>
+          </ul>
+          <button class="btn-primary">Upgrade to Pro</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq" id="faq">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    
+    <div class="faq-item">
+      <div class="faq-question">
+        How accurate are the prices? 
+        <span>↓</span>
+      </div>
+      <div class="faq-answer">
+        We pull prices directly from Google Flights in real-time. Prices update every 6 hours (or 4 hours for Pro users) to capture changes across multiple airlines.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        Which sites do you support?
+        <span>↓</span>
+      </div>
+      <div class="faq-answer">
+        Currently Google Flights only (MVPv1). We're adding Kayak, Expedia, and Skyscanner soon based on user demand.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        Do you spam my inbox?
+        <span>↓</span>
+      </div>
+      <div class="faq-answer">
+        No. You only get emails when prices actually drop 5% or more, or reach a new low. Average users get 1-2 alerts per tracked flight per month.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        Can I cancel Pro anytime?
+        <span>↓</span>
+      </div>
+      <div class="faq-answer">
+        Yes. Cancel anytime, no questions asked. Your data stays safe either way.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        Is my data private?
+        <span>↓</span>
+      </div>
+      <div class="faq-answer">
+        Completely. We only store your email and flight searches. No tracking, no selling data, no third-party ads.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        How many flights can I track?
+        <span>↓</span>
+      </div>
+      <div class="faq-answer">
+        Free tier: 2 flights max. Pro: Unlimited. Great for couples, families, or frequent travelers.
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <h2>Ready to Save on Your Next Flight?</h2>
+    <p>Join thousands of travelers saving money with instant price alerts</p>
+    <a href="https://chrome.google.com/webstore" class="btn-primary" style="display: inline-block;">Add to Chrome – Free</a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="https://chrome.google.com/webstore">Install Extension</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/privacy.html">Privacy Policy</a></li>
+          <li><a href="/terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="mailto:support@flightpricetracker.com">Contact Support</a></li>
+          <li><a href="https://github.com/yourusername/flight-price-tracker">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Flight Price Tracker. All rights reserved. | Made with ❤️ for travelers</p>
+    </div>
+  </footer>
+</body>
+</html>
